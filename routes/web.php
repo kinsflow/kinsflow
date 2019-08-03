@@ -15,6 +15,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/test', function () {
+    return view('pages.test');
+});
+
+Route::get('/roleuser', function(){
+    $user= App\ User::find(1);
+    foreach ($user->roles as $role)
+    {
+        return $role->name;
+    }
+});
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
