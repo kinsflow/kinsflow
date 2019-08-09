@@ -7,13 +7,16 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
-
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/favicon.ico')}}">
+    <!-- Modernizer JS -->
+    <script src="{{asset('js/vendor/modernizer-2.8.3.min.js')}}"></script>
     <!-- CSS
 	============================================ -->
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{asset('css/plugins.css')}}">
@@ -22,13 +25,15 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
     <!-- Icon Font CSS -->
-    <link rel="stylesheet" href="{{asset('css/icon-font.min.css')}}>
+    <link rel="stylesheet" href="{{asset('css/icon-font.min.css')}}">
+
 
 
 </head>
 
 <body>
-
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0"></script>
 <!-- Header Section Start -->
 <div class="header-section section">
 
@@ -47,20 +52,24 @@
 
                 <div class="col order-12 order-xs-12 order-lg-2 mt-10 mb-10">
                     <!-- Header Advance Search Start -->
-                    <div class="header-advance-search">
+                    <div class=" header-advance-search">
 
                         <form action="#">
-                            <div class="input"><input type="text" placeholder="Search your product"></div>
+                            <div class="input">
+                                <input type="text" name="search" id="search" placeholder="Search your product">
+                            </div>
                             <div class="select">
                                 <select class="nice-select">
-                                    <option>All Categories</option>
-                                    <option>Mobile</option>
-                                    <option>Computer</option>
-                                    <option>Laptop</option>
-                                    <option>Camera</option>
+                                    @foreach($category as $tag)
+                                        <a href="{{Auth::user() ? route('category', $tag->id) : route('login') }}">
+                                            <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                        </a>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="submit"><button><i class="icofont icofont-search-alt-1"></i></button></div>
+                            <div class="submit">
+                                <button><i class="icofont icofont-search-alt-1"></i></button>
+                            </div>
                         </form>
 
                     </div><!-- Header Advance Search End -->
@@ -69,14 +78,75 @@
                 <div class="col order-2 order-xs-2 order-lg-12 mt-10 mb-10">
                     <!-- Header Account Links Start -->
                     <div class="header-account-links">
-                        <a href="register.html"><i class="icofont icofont-user-alt-7"></i> <span>my account</span></a>
-                        <a href="login.html"><i class="icofont icofont-login d-none"></i> <span>Login</span></a>
+                        @guest
+                            <a href="{{route('login')}}"><i class="icofont icofont-login d-none"></i> <span>Login</span></a>
+                            @if (Route::has('registration'))
+                                <a href="{{route('signup')}}"><i class="icofont icofont-user-alt-7"></i> <span>my account</span></a>
+                            @endif
+
+                        @else
+                            <li>
+                                <a><i class="icofont icofont-login d-none"></i>
+                                    <span>{{ Auth::user()->first_name ." ". Auth::user()->last_name}}</span>
+                                </a>
+
+
+                                <a class="" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{--<i class="icofont icofont-user-alt-7"></i>--}}
+                                    <span>{{ __('Logout') }}</span>
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+
+                            </li>
+                        @endguest
                     </div><!-- Header Account Links End -->
                 </div>
 
             </div>
         </div>
     </div><!-- Header Top End -->
+
+
+
+
+
+
+
+
+    <div style="display: none" id="alltable" class="  table-responsive">
+        <h3 align="center">
+            Total Data : <span id="total_records"></span>
+        </h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody class="tablebody">
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+
 
     <!-- Header Bottom Start -->
     <div class="header-bottom header-bottom-one header-sticky">
@@ -87,8 +157,10 @@
                     <!-- Logo Start -->
                     <div class="header-logo">
                         <a href="index.html">
-                            <img src="{{asset('images/logo.png')}}" alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
-                            <img class="theme-dark" src="{{asset('images/logo-light.png')}}" alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
+                            <img src="{{asset('images/logo.png')}}"
+                                 alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
+                            <img class="theme-dark" src="{{asset('images/logo-light.png')}}"
+                                 alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
                         </a>
                     </div><!-- Logo End -->
                 </div>
@@ -106,7 +178,8 @@
                                                 <li><a href="shop-grid.html">shop grid</a></li>
                                             </ul>
                                         </li>
-                                        <li class="menu-item-has-children"><a href="single-product.html">Single Product</a>
+                                        <li class="menu-item-has-children"><a href="single-product.html">Single
+                                                Product</a>
                                             <ul class="sub-menu">
                                                 <li><a href="single-product.html">Single Product 1</a></li>
                                             </ul>
@@ -144,7 +217,8 @@
                                 </li>
                                 <li class="menu-item-has-children"><a href="blog-1-column-left-sidebar.html">BLOG</a>
                                     <ul class="sub-menu">
-                                        <li><a href="blog-1-column-left-sidebar.html">Blog 1 Column Left Sidebar</a></li>
+                                        <li><a href="blog-1-column-left-sidebar.html">Blog 1 Column Left Sidebar</a>
+                                        </li>
                                         <li><a href="single-blog-left-sidebar.html">Single Blog Left Sidebar</a></li>
                                     </ul>
                                 </li>
@@ -161,9 +235,11 @@
                         <!-- Compare -->
                         <a href="compare.html" class="header-compare"><i class="ti-control-shuffle"></i></a>
                         <!-- Wishlist -->
-                        <a href="wishlist.html" class="header-wishlist"><i class="ti-heart"></i> <span class="number">3</span></a>
+                        <a href="wishlist.html" class="header-wishlist"><i class="ti-heart"></i> <span
+                                    class="number">3</span></a>
                         <!-- Cart -->
-                        <a href="cart.html" class="header-cart"><i class="ti-shopping-cart"></i> <span class="number">3</span></a>
+                        <a href="{{Auth::user() ? route('showcart') : route('login')}}" target="_blank" class="header-car"><i class="ti-shopping-cart"></i> <span
+                                    class="number">{{Auth::user() ? count($carts) : ''}}</span></a>
 
                     </div><!-- Header Shop Links End -->
                 </div>
@@ -193,12 +269,9 @@
                         <!-- Category Menu -->
                         <nav class="category-menu">
                             <ul>
-                                <li><a href="category-1.html">Tv & Audio System</a></li>
-                                <li><a href="category-2.html">Computer & Laptop</a></li>
-                                <li><a href="category-3.html">Phones & Tablets</a></li>
-                                <li><a href="category-1.html">Home Appliances</a></li>
-                                <li><a href="category-2.html">Kitchen appliances</a></li>
-                                <li><a href="category-3.html">Accessories</a></li>
+                                @foreach($category as $tag)
+                                    <li><a href="{{Auth::user() ? route('category', $tag->id) : route('login')}}">{{$tag->name}}</a></li>
+                                @endforeach
                             </ul>
                         </nav>
 
@@ -209,12 +282,13 @@
         </div>
     </div><!-- Header Category End -->
 
+    <br>
+    <br>
+    <br>
+    <br>
 
 
-
-@yield('content')
-
-
+    @yield('content')
 
 
     <div class="brands-section section mb-90">
@@ -252,8 +326,8 @@
                 <div class="col-lg-6 col-12 mb-15 mt-15">
 
                     <form class="subscribe-form" action="#">
-                        <input type="email" autocomplete="off" placeholder="Enter your email here" />
-                        <button >subscribe</button>
+                        <input type="email" autocomplete="off" placeholder="Enter your email here"/>
+                        <button>subscribe</button>
                     </form>
                     <!-- mailchimp-alerts Start -->
                     <div class="mailchimp-alerts text-centre">
@@ -280,10 +354,13 @@
                     <div class="col mb-90">
                         <div class="footer-widget text-center">
                             <div class="footer-logo">
-                                <img src="{{asset('images/logo.png')}}" alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
-                                <img class="theme-dark" src="{{asset('images/logo-light.png')}}" alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
+                                <img src="{{asset('images/logo.png')}}"
+                                     alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
+                                <img class="theme-dark" src="{{asset('images/logo-light.png')}}"
+                                     alt="E&E - Electronics eCommerce Bootstrap4 HTML Template">
                             </div>
-                            <p>Electronics product actual teachings of  he great explorer of the truth, the malder of human happiness. No one rejects</p>
+                            <p>Electronics product actual teachings of he great explorer of the truth, the malder of
+                                human happiness. No one rejects</p>
                         </div>
                     </div>
                 </div><!-- Footer Widget End -->
@@ -299,7 +376,7 @@
                             <p class="contact-info">
                                 <span>Address</span>
                                 You address will be here <br>
-                                Lorem Ipsum text                        </p>
+                                Lorem Ipsum text </p>
 
                             <p class="contact-info">
                                 <span>Phone</span>
@@ -379,12 +456,14 @@
 
                     <!-- Footer Copyright -->
                     <div class="col-lg-6 col-12">
-                        <div class="footer-copyright"><p>&copy; Copyright, 2018 All Rights Reserved by <a href="https://freethemescloud.com/">Free themes Cloud</a></p></div>
+                        <div class="footer-copyright"><p>&copy; Copyright, 2018 All Rights Reserved by <a
+                                        href="https://freethemescloud.com/">Free themes Cloud</a></p></div>
                     </div>
 
                     <!-- Footer Payment Support -->
                     <div class="col-lg-6 col-12">
-                        <div class="footer-payments-image"><img src="{{asset('images/payment-support.png')}}" alt="Payment Support Image"></div>
+                        <div class="footer-payments-image"><img src="{{asset('images/payment-support.png')}}"
+                                                                alt="Payment Support Image"></div>
                     </div>
 
                 </div>
@@ -394,42 +473,6 @@
     </div><!-- Footer Section End -->
 
     <!-- Popup Subscribe Section Start -->
-    <div class="popup-subscribe-section section bg-gray pt-55 pb-55" data-modal="popup-modal">
-
-        <!-- Popup Subscribe Wrap Start -->
-        <div class="popup-subscribe-wrap">
-
-            <button class="close-popup">X</button>
-
-            <!-- Popup Subscribe Banner -->
-            <div class="popup-subscribe-banner banner">
-                <a href="#"><img src="{{asset('images/banner/banner-7.jpg')}}" alt="Banner"></a>
-            </div>
-
-            <!-- Popup Subscribe Form Wrap Start -->
-            <div class="popup-subscribe-form-wrap">
-
-                <h1>SUBSCRIBE <br>OUR NEWSLETTER</h1>
-                <h4>Get latest product update...</h4>
-
-                <!-- Newsletter Form -->
-                <form action="#" method="post" class="popup-subscribe-form validate" target="_blank" novalidate>
-                    <div id="mc_embed_signup_scroll">
-                        <label for="popup_subscribe" class="d-none">Subscribe to our mailing list</label>
-                        <input type="email" value="" name="EMAIL" class="email" id="popup_subscribe" placeholder="Enter your email here" required>
-                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value=""></div>
-                        <button type="submit" name="subscribe" id="" class="button">subscribe</button>
-                    </div>
-                </form>
-
-                <p>Be the first in the by getting special deals and offers send directly to your inbox.</p>
-
-            </div><!-- Popup Subscribe Form Wrap End -->
-
-        </div><!-- Popup Subscribe Wrap End -->
-
-    </div><!-- Popup Subscribe Section End -->
 
 
     <!-- JS
@@ -448,5 +491,35 @@
     <!-- Main JS -->
     <script src="{{asset('js/main.js')}}"></script>
 
-    </body>
+    <script>
+
+    $(document).ready(function () {
+        fetch_users_data();
+        function fetch_users_data(query = '') {
+            $.ajax({
+                url:"{{route('livesearch')}}",
+                method:"GET",
+                data:{query:query},
+                dataType:'json',
+                success:function (data) {
+                    $('.tablebody').html(data.table_data);
+                    $('#total_records').text(data.total_data)
+                }
+            })
+        }
+        $(document).on('keyup', '#search', function(){
+           var query = $(this).val();
+           // console.log(query);
+           $('#alltable').show().fadeIn(5000);
+           fetch_users_data(query);
+        });
+
+
+        $(document).on('click', '#testa', function(){
+            console.log('onclick working')
+        });
+    });
+    </script>
+</div>
+</body>
 </html>

@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         factory(\App\Role::class, 5)->create();
         factory(\App\Sale::class, 5)->create();
         factory(\App\Wishlist::class, 5)->create();
+        factory(\App\Post::class, 5)->create();
+        factory(\App\Comment::class, 5)->create();
     }
 }
