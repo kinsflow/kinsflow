@@ -33,6 +33,11 @@ Route::get('/description/{id}', 'CategoryController@description')->name('descrip
 
 
 Route::get('/blog', 'BlogController@index')->name('allblog');
+Route::get('/blog/{id}', 'BlogController@categoryBlog')->name('categoryBlog');
+Route::get('/blog/{id}/edit', 'BlogController@editBlog')->name('editBlog');
+Route::post('/comments/{id}', 'BlogController@comments')->name('comments');
+Route::get('createpost', 'BlogController@create')->name('create.blog');
+Route::post('savepost', 'BlogController@createBlog')->name('createBlog');
 
 
 Route::get('/roleuser', function(){

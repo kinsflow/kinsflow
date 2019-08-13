@@ -1,5 +1,6 @@
 @extends('layouts/body')
 @section('content')
+
     <!-- Blog Section Start -->
     <div class="blog-section section mt-90 mb-50">
         <div class="container">
@@ -17,7 +18,7 @@
 
                                 <form action="{{route('allblog')}}" method="GET">
                                     {{--<div class="input">--}}
-                                        {{--<input type="text" name="search" id="search" placeholder="Search your product">--}}
+                                    {{--<input type="text" name="search" id="search" placeholder="Search your product">--}}
                                     {{--</div>--}}
                                     @csrf
                                     <div class="select">
@@ -45,23 +46,23 @@
 
 
 
-                        @foreach($posts as $post)
+                    @foreach($posts as $post)
 
                         <!-- Blog Item -->
-                        <div class="col-12 mb-40">
-                            <div class="ee-blog">
-                                <a href="{{route('editBlog', $post->id)}}" class="image"><img src="{{asset('images/blog/blog-12.jpg')}}" alt="Blog Image"></a>
-                                <div class="content">
-                                    <h3><a href="{{route('editBlog', $post->id)}}">{{$post->title}}</a></h3>
-                                    <ul class="meta">
-                                        <li><a href="#">Momen</a></li>
-                                        <li><a href="#">{{$post->created_at->diffForHumans()}}</a></li>
-                                        <li><a href="#">Comments 05</a></li>
-                                    </ul>
-                                    <p>{{$post->body}}</p>
+                            <div class="col-12 mb-40">
+                                <div class="ee-blog">
+                                    <a href="single-blog-left-sidebar.html" class="image"><img src="{{asset('images/blog/blog-12.jpg')}}" alt="Blog Image"></a>
+                                    <div class="content">
+                                        <h3><a href="single-blog-left-sidebar.html">{{$post->title}}</a></h3>
+                                        <ul class="meta">
+                                            <li><a href="#">Momen</a></li>
+                                            <li><a href="#">{{$post->created_at->diffForHumans()}}</a></li>
+                                            <li><a href="#">Comments 05</a></li>
+                                        </ul>
+                                        <p>{{$post->body}}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
 
@@ -77,7 +78,7 @@
 
                         <ul>
                             @foreach($category as $tag)
-                            <li><a href="{{route('categoryBlog', $tag->id)}}">{{$tag->name}}</a></li>
+                                <li><a href="{{route('categoryBlog', $tag->id)}}">{{$tag->name}}</a></li>
                             @endforeach
                         </ul>
 
@@ -121,6 +122,6 @@
 
             </div>
         </div>
-    </div><!-- Blog Section End -->
+    </div><!--
 @endsection
 

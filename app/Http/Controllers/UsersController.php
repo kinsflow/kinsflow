@@ -16,7 +16,7 @@ class UsersController extends Controller
 {
     public function signup()
     {
-        $carts = Auth::user()->cart;
+//        $carts = Auth::user()->cart;
         $category = Category::all();
 //        dd($category);
         return view('auth.signup', compact('category', 'carts'));

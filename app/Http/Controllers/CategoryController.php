@@ -38,7 +38,7 @@ class CategoryController extends Controller
 //        }
         return view('pages.cart', compact('category', 'carts'));
     }
-
+//
     public function description($id)
     {
 //        dd($id);
