@@ -25,8 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $wishlists = Auth::user()->wishlist;
         $carts = Auth::user()->cart;
         $category = $category = Category::all();
-        return view('home', compact('category', 'carts'));
+        return view('home', compact('category', 'carts', 'wishlists'));
     }
 }

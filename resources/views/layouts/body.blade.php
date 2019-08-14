@@ -235,10 +235,10 @@
                         <!-- Compare -->
                         <a href="compare.html" class="header-compare"><i class="ti-control-shuffle"></i></a>
                         <!-- Wishlist -->
-                        <a href="wishlist.html" class="header-wishlist"><i class="ti-heart"></i> <span
-                                    class="number">3</span></a>
+                        <a href="{{Auth::user() ? route('wishlist') : route('login')}}" class="header-wishlist"><i class="ti-heart"></i> <span
+                                    class="number">{{Auth::user() ? count($wishlists) : ''}}</span></a>
                         <!-- Cart -->
-                        <a href="{{Auth::user() ? route('showcart') : route('login')}}" target="_blank" class="header-car"><i class="ti-shopping-cart"></i> <span
+                        <a href="{{Auth::user() ? route('showcart') : route('login')}}"  class="header-car"><i class="ti-shopping-cart"></i> <span
                                     class="number">{{Auth::user() ? count($carts) : ''}}</span></a>
 
                     </div><!-- Header Shop Links End -->

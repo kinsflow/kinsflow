@@ -28,6 +28,8 @@ Route::get('/livesearch', 'UsersController@livesearch')->name('livesearch');
 
 Route::get('/addtocart/{id}', 'CategoryController@addtocart')->name('addtocart');
 Route::get('/mycart', 'CategoryController@showcart')->name('showcart');
+Route::get('/wishlist', 'CategoryController@wishlist')->name('wishlist');
+Route::get('/addtowishlist/{id}', 'CategoryController@addtowishlist')->name('addtowishlist');
 Route::get('/description/{id}', 'CategoryController@description')->name('description');
 
 

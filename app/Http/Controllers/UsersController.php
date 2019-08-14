@@ -64,11 +64,12 @@ class UsersController extends Controller
 
     public function category($id)
     {
+        $wishlists = Auth::user()->wishlist;
         $carts = Auth::user()->cart;
         $category = Category::all();
         $products = Product::where('category_id', $id)->get();
 //        dd($product);
-        return view('pages.category', compact('category', 'products', 'carts'));
+        return view('pages.category', compact('category', 'products', 'carts', 'wishlists'));
     }
 
     public function livesearch(Request $request)

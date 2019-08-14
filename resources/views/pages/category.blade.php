@@ -34,6 +34,9 @@
                                     <a class="form form-control" href="{{route('addtocart', $product->id)}}">
                                         <input type="button" class="bg-warning text-bold text-black-50 form form-control" value="Add To Cart" id="testa">
                                     </a>
+                                    <a class="form form-control" href="{{route('addtowishlist', $product->id)}}">
+                                        <input type="button" class="bg-primary text-bold text-black-50 form form-control" value="Add To Wishlist" id="testa">
+                                    </a>
                                     {{--<a href="#" id="testa" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>--}}
 
                                     {{--<button class="form control bg-primary">Add To Cart</button>--}}
