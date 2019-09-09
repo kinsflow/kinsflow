@@ -41,9 +41,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function photo()
+    public function photos()
     {
-        return $this->belongsTo(Photo::class,'photo_id');
+        return $this->morphOne(Photo::class, 'imageable');
     }
 
     public function wishlist()

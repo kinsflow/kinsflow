@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Photo;
 use App\Product;
 use App\User;
 use App\Cart;
@@ -78,14 +79,14 @@ class UsersController extends Controller
             $query = $request->get('query');
 //            return $query;
             if ($query != '') {
-                $data = DB::table('users')->where('first_name', 'like', '%' . $query . '%')
-                    ->orWhere('last_name', 'like', '%' . $query . '%')
-                    ->orWhere('contact_info', 'like', '%' . $query . '%')
-                    ->orWhere('address', 'like', '%' . $query . '%')
-                    ->orWhere('email', 'like', '%' . $query . '%')
+                $data = DB::table('products')->where('counter', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('slug', 'like', '%' . $query . '%')
+                    ->orWhere('price', 'like', '%' . $query . '%')
                     ->orderBy('id', 'desc')->get();
             } else {
-                $data = DB::table('users')->orderBy('id', 'desc')->get();
+                $data = DB::table('products')->orderBy('id', 'desc')->get();
             }
             $output = '';
             $total_row = $data->count();
@@ -93,11 +94,11 @@ class UsersController extends Controller
                 foreach ($data as $row) {
                     $output .= '
                             <tr>
-                                    <td>' . $row->first_name . '</td>
-                                    <td>' . $row->last_name . '</td>
-                                    <td>' . $row->contact_info . '</td>
-                                    <td>' . $row->address . '</td>
-                                    <td>' . $row->email . '</td>
+                                    <td>' . $row->name . '</td>
+                                    <td>' . $row->description . '</td>
+                                    <td>' . $row->slug . '</td>
+                                    <td>' . $row->price . '</td>
+                                    <td>' . $row->created_at. '</td>
                             </tr>
                             ';
                 }
@@ -111,5 +112,27 @@ class UsersController extends Controller
 
             return json_encode($data);
         }
+    }
+
+
+    public  function photos(Request $request)
+    {
+
+        if($file = $request->file('photos'))
+        {
+            $file_name = time().$file->getClientOriginalName();
+            $file->move('images/', $file_name);
+            $input = Photo::create([
+                'file_path' => $file_name ,
+                'imageable_id' => Auth::id(),
+                'imageable_type' => 'App\User'
+            ]);
+
+            if($input)
+            {
+                return redirect()->back();
+            }
+         }
+
     }
 }

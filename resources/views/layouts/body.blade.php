@@ -28,12 +28,12 @@
     <link rel="stylesheet" href="{{asset('css/icon-font.min.css')}}">
 
 
-
 </head>
 
 <body>
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0"></script>
+<script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0"></script>
 <!-- Header Section Start -->
 <div class="header-section section">
 
@@ -54,7 +54,7 @@
                     <!-- Header Advance Search Start -->
                     <div class=" header-advance-search">
 
-                        <form action="#">
+                        {{--<form>--}}
                             <div class="input">
                                 <input type="text" name="search" id="search" placeholder="Search your product">
                             </div>
@@ -68,9 +68,10 @@
                                 </select>
                             </div>
                             <div class="submit">
-                                <button><i class="icofont icofont-search-alt-1"></i></button>
+                                <button data-toggle="modal" data-target="#myModal"><i
+                                            class="icofont icofont-search-alt-1"></i></button>
                             </div>
-                        </form>
+                        {{--</form>--}}
 
                     </div><!-- Header Advance Search End -->
                 </div>
@@ -117,29 +118,37 @@
 
 
 
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog-scrollable">
+            <div class="modal-content">
+                <div style="display: none" id="alltable" class="table-responsive">
+                    <div class="modal-header">
+                    <h3 class="modal-title" align="center">
+                        Total Data : <span id="total_records"></span>
+                    </h3>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Slug</th>
+                            <th>Price</th>
+                            <th>Time since available</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tablebody">
 
-
-    <div style="display: none" id="alltable" class="  table-responsive">
-        <h3 align="center">
-            Total Data : <span id="total_records"></span>
-        </h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>Email</th>
-            </tr>
-            </thead>
-            <tbody class="tablebody">
-
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
 
 
 
@@ -217,9 +226,10 @@
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">BLOG</a>
                                     <ul class="sub-menu">
-                                        <li><a href="{{route('allblog')}}">Visit Blog</a>
+                                        <li><a href="{{Auth::user() ? route('allblog') : route('login')}}">Visit Blog</a>
                                         </li>
-                                        <li><a href="single-blog-left-sidebar.html">Create Post / Initialize A Discussion</a></li>
+                                        <li><a href="{{Auth::user() ? route('create.blog') : route('login')}}">Create Post / Initialize A Discussion</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li><a href="contact.html">CONTACT</a></li>
@@ -235,10 +245,12 @@
                         <!-- Compare -->
                         <a href="compare.html" class="header-compare"><i class="ti-control-shuffle"></i></a>
                         <!-- Wishlist -->
-                        <a href="{{Auth::user() ? route('wishlist') : route('login')}}" class="header-wishlist"><i class="ti-heart"></i> <span
+                        <a href="{{Auth::user() ? route('wishlist') : route('login')}}" class="header-wishlist"><i
+                                    class="ti-heart"></i> <span
                                     class="number">{{Auth::user() ? count($wishlists) : ''}}</span></a>
                         <!-- Cart -->
-                        <a href="{{Auth::user() ? route('showcart') : route('login')}}"  class="header-car"><i class="ti-shopping-cart"></i> <span
+                        <a href="{{Auth::user() ? route('showcart') : route('login')}}" class="header-car"><i
+                                    class="ti-shopping-cart"></i> <span
                                     class="number">{{Auth::user() ? count($carts) : ''}}</span></a>
 
                     </div><!-- Header Shop Links End -->
@@ -270,7 +282,9 @@
                         <nav class="category-menu">
                             <ul>
                                 @foreach($category as $tag)
-                                    <li><a href="{{Auth::user() ? route('category', $tag->id) : route('login')}}">{{$tag->name}}</a></li>
+                                    <li>
+                                        <a href="{{Auth::user() ? route('category', $tag->id) : route('login')}}">{{$tag->name}}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </nav>
@@ -380,13 +394,13 @@
 
                             <p class="contact-info">
                                 <span>Phone</span>
-                                <a href="tel:01234567890">01234 567 890</a>
-                                <a href="tel:01234567891">01234 567 891</a>
+                                <a href="tel:08169988402">08169988402</a>
+                                <a href="tel:07083345461">07083345461</a>
                             </p>
 
                             <p class="contact-info">
                                 <span>Web</span>
-                                <a href="mailto:info@example.com">info@example.com</a>
+                                <a href="mailto:kingsley.davidakindele@gmail.com">kingsley.davidakindele@gmail.com</a>
                                 <a href="#">www.example.com</a>
                             </p>
 
@@ -403,10 +417,10 @@
                                 <li><a href="#">About us</a></li>
                                 <li><a href="#">Features</a></li>
                                 <li><a href="#">My Account</a></li>
-                                <li><a href="#">Cart</a></li>
+                                <li><a href="{{Auth::user() ? route('showcart') : route('login')}}">Cart</a></li>
                                 <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                                <li><a href="#">blog</a></li>
+                                <li><a href="{{Auth::user() ? route('wishlist') : route('login')}}">Wishlist</a></li>
+                                <li><a href="{{Auth::user() ? route('allblog') : route('login')}}">blog</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>
 
@@ -493,32 +507,34 @@
 
     <script>
 
-    $(document).ready(function () {
-        fetch_users_data();
-        function fetch_users_data(query = '') {
-            $.ajax({
-                url:"{{route('livesearch')}}",
-                method:"GET",
-                data:{query:query},
-                dataType:'json',
-                success:function (data) {
-                    $('.tablebody').html(data.table_data);
-                    $('#total_records').text(data.total_data)
-                }
-            })
-        }
-        $(document).on('keyup', '#search', function(){
-           var query = $(this).val();
-           // console.log(query);
-           $('#alltable').show().fadeIn(5000);
-           fetch_users_data(query);
-        });
+        $(document).ready(function () {
+            fetch_users_data();
+
+            function fetch_users_data(query = '') {
+                $.ajax({
+                    url: "{{route('livesearch')}}",
+                    method: "GET",
+                    data: {query: query},
+                    dataType: 'json',
+                    success: function (data) {
+                        $('.tablebody').html(data.table_data);
+                        $('#total_records').text(data.total_data)
+                    }
+                })
+            }
+
+            $(document).on('keyup', '#search', function () {
+                var query = $(this).val();
+                // console.log(query);
+                $('#alltable').show().fadeIn(5000);
+                fetch_users_data(query);
+            });
 
 
-        $(document).on('click', '#testa', function(){
-            console.log('onclick working')
+            $(document).on('click', '#testa', function () {
+                console.log('onclick working')
+            });
         });
-    });
     </script>
 </div>
 </body>

@@ -42,7 +42,8 @@
         <div class="container">
             <div class="text-center">
                 @if(Session::has('message'))
-                    <div class="d-inline-block text-center ml-3 col-sm-5 alert alert-info">
+                    <div class="d-inline-block text-center ml-3 col-sm-5 alert alert-dismissible alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <h4>{{Session::get('message')}}</h4>
                     </div>
                 @endif

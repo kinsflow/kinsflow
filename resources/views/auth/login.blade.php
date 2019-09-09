@@ -73,7 +73,7 @@
                                 <div class="col-12"><input type="submit" value="LOGIN"></div>
                             </div>
                         </form>
-                        <h4>Don’t have account? please click <a href="register">Register</a></h4>
+                        <h4>Don’t have account? please click <a href="{{route('signup')}}">Register</a></h4>
 
                     </div>
                 </div>

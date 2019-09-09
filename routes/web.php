@@ -11,6 +11,10 @@
 |
 */
 
+use App\Category;
+use App\Product;
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,10 +24,25 @@ Route::get('/test', function () {
     return view('pages.test');
 });
 
+
+
+Route::get('/profile/{id}/user', function ($id){
+    $wishlists = Auth::user()->wishlist;
+    $products = Product::find($id);
+    $category = Category::all();
+    $carts = Auth::user()->cart;
+    return view('pages.profile', compact('wishlists', 'products', 'category', 'carts', 'id'));
+});
+
+
+
+
 Route::get('/signup', 'UsersController@signup')->name('signup');
 Route::get('/category/{id}', 'UsersController@category')->name('category');
 Route::post('/registration', 'UsersController@register')->name('registration');
 Route::get('/livesearch', 'UsersController@livesearch')->name('livesearch');
+Route::post('/users/photo', 'UsersController@photos')->name('user.photo');
+
 
 
 Route::get('/addtocart/{id}', 'CategoryController@addtocart')->name('addtocart');
